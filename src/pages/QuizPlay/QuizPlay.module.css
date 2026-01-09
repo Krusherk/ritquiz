@@ -1,0 +1,246 @@
+.loadingPage,
+.errorPage,
+.finishedPage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-4);
+    color: var(--color-text-secondary);
+}
+
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--color-gray-700);
+    border-top-color: var(--color-white);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.finishedActions {
+    display: flex;
+    gap: var(--spacing-4);
+}
+
+/* Start Page */
+.startPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-4);
+}
+
+.startCard {
+    width: 100%;
+    max-width: 500px;
+    padding: var(--spacing-10);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+}
+
+.quizTitle {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--color-white);
+    margin-bottom: var(--spacing-3);
+}
+
+.quizDescription {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-6);
+}
+
+.quizInfo {
+    display: flex;
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-6);
+}
+
+.infoItem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--color-text-secondary);
+}
+
+.infoIcon {
+    font-size: var(--font-size-lg);
+}
+
+.rules {
+    padding: var(--spacing-4);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-6);
+}
+
+.rules h3 {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-white);
+    margin-bottom: var(--spacing-3);
+}
+
+.rules ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.rules li {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    padding-left: var(--spacing-4);
+    position: relative;
+}
+
+.rules li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--color-gray-500);
+}
+
+/* Quiz Page */
+.quizPage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-4);
+}
+
+.progressBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--color-gray-800);
+    z-index: 100;
+}
+
+.progressFill {
+    height: 100%;
+    background: var(--color-white);
+    transition: width var(--transition-base);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-4);
+    margin-top: var(--spacing-4);
+}
+
+.questionCount {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+/* Question */
+.questionContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-8);
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.questionText {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    color: var(--color-white);
+    text-align: center;
+    margin-bottom: var(--spacing-10);
+    line-height: 1.4;
+}
+
+.optionsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-4);
+    width: 100%;
+}
+
+.optionButton {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding: var(--spacing-5);
+    background: var(--color-gray-900);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    text-align: left;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.optionButton:hover {
+    border-color: var(--color-gray-600);
+    background: var(--color-gray-800);
+}
+
+.optionButton.selected {
+    border-color: var(--color-white);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.optionLetter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--color-gray-800);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+}
+
+.optionButton.selected .optionLetter {
+    background: var(--color-white);
+    color: var(--color-black);
+}
+
+.optionText {
+    font-size: var(--font-size-base);
+    color: var(--color-white);
+    flex: 1;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-6);
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .optionsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: var(--spacing-4);
+    }
+}

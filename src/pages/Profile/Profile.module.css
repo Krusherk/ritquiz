@@ -1,0 +1,79 @@
+.page {
+    padding: var(--spacing-8) 0;
+}
+
+.notFound {
+    text-align: center;
+    padding: var(--spacing-16);
+    color: var(--color-text-secondary);
+}
+
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-6);
+    padding-bottom: var(--spacing-6);
+    border-bottom: 1px solid var(--color-border-subtle);
+    margin-bottom: var(--spacing-6);
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.username {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-white);
+}
+
+.role {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-full);
+    width: fit-content;
+    text-transform: capitalize;
+}
+
+.role.player {
+    background: var(--color-gray-700);
+    color: var(--color-gray-300);
+}
+
+.role.host {
+    background: var(--color-warning);
+    color: var(--color-black);
+}
+
+.role.admin {
+    background: var(--color-white);
+    color: var(--color-black);
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.detailRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.label {
+    color: var(--color-text-secondary);
+}
+
+.value {
+    color: var(--color-white);
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+}

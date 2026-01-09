@@ -1,0 +1,114 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.logoText {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-white);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-6);
+}
+
+.navLink {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.navLink:hover {
+    color: var(--color-white);
+}
+
+.navLink.active {
+    color: var(--color-white);
+}
+
+.userMenu {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding-left: var(--spacing-4);
+    border-left: 1px solid var(--color-border-subtle);
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.username {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text-primary);
+}
+
+.loginBtn {
+    padding: var(--spacing-2) var(--spacing-5);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-black);
+    background: var(--color-white);
+    border: none;
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+}
+
+.loginBtn:hover {
+    background: var(--color-gray-200);
+}
+
+.logoutBtn {
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.logoutBtn:hover {
+    color: var(--color-white);
+    border-color: var(--color-gray-600);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .nav {
+        gap: var(--spacing-4);
+    }
+
+    .navLink {
+        display: none;
+    }
+
+    .username {
+        display: none;
+    }
+}

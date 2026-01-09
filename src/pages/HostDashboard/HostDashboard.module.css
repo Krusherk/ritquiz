@@ -1,0 +1,147 @@
+.page {
+    padding: var(--spacing-8) 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-8);
+}
+
+.title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--color-white);
+}
+
+.subtitle {
+    color: var(--color-text-secondary);
+}
+
+.loading {
+    text-align: center;
+    padding: var(--spacing-12);
+    color: var(--color-text-secondary);
+}
+
+/* Empty State */
+.empty {
+    text-align: center;
+    padding: var(--spacing-16);
+}
+
+.emptyIcon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-4);
+}
+
+.empty h3 {
+    font-size: var(--font-size-xl);
+    color: var(--color-white);
+    margin-bottom: var(--spacing-2);
+}
+
+.empty p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-6);
+}
+
+/* Quiz Grid */
+.quizGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-6);
+}
+
+.quizCard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.quizHeader {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.status {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+}
+
+.status.draft {
+    background: var(--color-gray-700);
+    color: var(--color-gray-300);
+}
+
+.status.live {
+    background: var(--color-success);
+    color: var(--color-black);
+}
+
+.status.completed {
+    background: var(--color-gray-600);
+    color: var(--color-white);
+}
+
+.quizTitle {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--color-white);
+}
+
+.quizMeta {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.quizActions {
+    display: flex;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-2);
+}
+
+/* Form */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-6);
+}
+
+.optionsSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+.optionRow {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.radio {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--color-white);
+}
+
+.hint {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.formActions {
+    display: flex;
+    gap: var(--spacing-4);
+}
