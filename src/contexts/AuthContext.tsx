@@ -32,19 +32,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             (account) => account.type === 'discord_oauth'
         ) as any;
 
-        // Privy provides the avatar URL or we can construct it from subject (Discord user ID)
         if (discordAccount) {
-            // If Privy provides the avatar URL directly
-            if (discordAccount.avatarUrl) {
-                return discordAccount.avatarUrl;
-            }
-            // If Privy provides profile picture URL
+            // Log to debug what Privy gives us
+            console.log('Discord account data:', discordAccount);
+
+            // Check all possible avatar fields from Privy
             if (discordAccount.profile_picture_url) {
                 return discordAccount.profile_picture_url;
             }
-            // Fallback: construct from Discord CDN (subject is the Discord user ID)
+            if (discordAccount.avatarUrl) {
+                return discordAccount.avatarUrl;
+            }
+            if (discordAccount.avatar_url) {
+                return discordAccount.avatar_url;
+            }
+
+            // Construct Discord CDN URL using user ID and avatar hash
+            // Discord format: https://cdn.discordapp.com/avatars/{user_id}/{avatar_hash}.png
+            if (discordAccount.subject && discordAccount.avatar) {
+                const userId = discordAccount.subject;
+                const avatarHash = discordAccount.avatar;
+                const extension = avatarHash.startsWith('a_') ? 'gif' : 'png';
+                return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.${extension}`;
+            }
+
+            // Fallback: default Discord avatar
             if (discordAccount.subject) {
-                // Default Discord avatar based on discriminator
                 return `https://cdn.discordapp.com/embed/avatars/${parseInt(discordAccount.subject) % 5}.png`;
             }
         }
