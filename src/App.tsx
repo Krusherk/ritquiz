@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { PrivyWrapper } from './lib/privy';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { QuizProvider } from './contexts/QuizContext';
@@ -14,6 +15,33 @@ import {
     Profile
 } from './pages';
 import './styles/index.css';
+
+// OAuth callback handler - cleans up URL after OAuth login
+function OAuthHandler({ children }: { children: React.ReactNode }) {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { needsUsername, isAuthenticated, isLoading } = useAuth();
+
+    useEffect(() => {
+        // Check if URL has OAuth params
+        const params = new URLSearchParams(location.search);
+        if (params.has('privy_oauth_state') || params.has('privy_oauth_code')) {
+            // Wait for auth to settle, then redirect
+            if (!isLoading) {
+                if (needsUsername) {
+                    navigate('/setup', { replace: true });
+                } else if (isAuthenticated) {
+                    navigate('/dashboard', { replace: true });
+                } else {
+                    // Clean up URL params
+                    navigate(location.pathname, { replace: true });
+                }
+            }
+        }
+    }, [location, isLoading, needsUsername, isAuthenticated, navigate]);
+
+    return <>{children}</>;
+}
 
 // Protected Route Component
 function ProtectedRoute({
@@ -152,7 +180,9 @@ function App() {
             <PrivyWrapper>
                 <AuthProvider>
                     <QuizProvider>
-                        <AppRoutes />
+                        <OAuthHandler>
+                            <AppRoutes />
+                        </OAuthHandler>
                     </QuizProvider>
                 </AuthProvider>
             </PrivyWrapper>
