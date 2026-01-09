@@ -47,16 +47,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 return discordAccount.avatar_url;
             }
 
-            // Construct Discord CDN URL using user ID and avatar hash
-            // Discord format: https://cdn.discordapp.com/avatars/{user_id}/{avatar_hash}.png
-            if (discordAccount.subject && discordAccount.avatar) {
-                const userId = discordAccount.subject;
-                const avatarHash = discordAccount.avatar;
-                const extension = avatarHash.startsWith('a_') ? 'gif' : 'png';
-                return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.${extension}`;
+            // Privy doesn't give us the avatar hash, but we have the username
+            // Use DiceBear to generate a nice avatar based on the Discord username
+            if (discordAccount.username) {
+                const username = discordAccount.username.split('#')[0]; // Remove discriminator
+                return `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(username)}`;
             }
 
-            // Fallback: default Discord avatar
+            // Final fallback: default Discord avatar
             if (discordAccount.subject) {
                 return `https://cdn.discordapp.com/embed/avatars/${parseInt(discordAccount.subject) % 5}.png`;
             }
@@ -137,9 +135,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     setUser(prev => prev ? { ...prev, avatarUrl: discordAvatar } : null);
                 }
             } else {
-                // New user - needs to set username
-                setNeedsUsername(true);
-                setUser(null);
+                // New user - check if they logged in with Discord
+                const discordUsername = getDiscordUsername();
+
+                if (discordUsername) {
+                    // Auto-create user with Discord username (remove #0 suffix)
+                    const cleanUsername = discordUsername.split('#')[0];
+                    const role = isAdminUser() ? 'admin' : 'player';
+
+                    const newUser = await createUser({
+                        privyId: privyUser.id,
+                        username: cleanUsername,
+                        displayName: getDisplayName() || cleanUsername,
+                        email: getEmail(),
+                        avatarUrl: getDiscordAvatar(),
+                        role,
+                        createdAt: Date.now(),
+                        updatedAt: Date.now()
+                    });
+
+                    setUser(newUser);
+                    setNeedsUsername(false);
+                } else {
+                    // Not Discord login - needs to set username manually
+                    setNeedsUsername(true);
+                    setUser(null);
+                }
             }
         } catch (error) {
             console.error('Error fetching user:', error);
