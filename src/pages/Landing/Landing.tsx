@@ -11,16 +11,12 @@ export function Landing() {
     const { user, isAuthenticated, needsUsername, isLoading } = useAuth();
     const navigate = useNavigate();
 
-    // Auto-redirect when logged in
+    // Only redirect if user needs to set username (don't auto-redirect authenticated users)
     useEffect(() => {
-        if (ready && !isLoading) {
-            if (isAuthenticated) {
-                navigate('/dashboard');
-            } else if (needsUsername) {
-                navigate('/setup');
-            }
+        if (ready && !isLoading && needsUsername) {
+            navigate('/setup');
         }
-    }, [ready, isLoading, isAuthenticated, needsUsername, navigate]);
+    }, [ready, isLoading, needsUsername, navigate]);
 
     const handleGetStarted = () => {
         if (isAuthenticated) {
