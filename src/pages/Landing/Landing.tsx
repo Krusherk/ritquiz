@@ -6,11 +6,14 @@ import { Layout } from '../../components/layout';
 import styles from './Landing.module.css';
 
 export function Landing() {
-    const { isAuthenticated, login } = useAuth();
+    const { isAuthenticated, needsUsername, login } = useAuth();
     const navigate = useNavigate();
 
     const handleGetStarted = () => {
-        if (isAuthenticated) {
+        // Check needsUsername FIRST because when it's true, isAuthenticated is false
+        if (needsUsername) {
+            navigate('/setup');
+        } else if (isAuthenticated) {
             navigate('/dashboard');
         } else {
             login();
@@ -180,14 +183,10 @@ export function Landing() {
                     <div className="container">
                         <div className={styles.footerContent}>
                             <div className={styles.footerLogo}>
-                                <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-                                    <rect width="32" height="32" rx="8" fill="white" />
-                                    <path d="M9 11L16 7L23 11V21L16 25L9 21V11Z" stroke="black" strokeWidth="2" />
-                                    <circle cx="16" cy="16" r="4" fill="black" />
-                                </svg>
-                                <span>Quizzy</span>
+                                <img src="/rit.svg" alt="RITQUIZ" width="24" height="24" />
+                                <span>RITQUIZ</span>
                             </div>
-                            <p className={styles.footerText}>© 2025 Quizzy. All rights reserved.</p>
+                            <p className={styles.footerText}>© 2025 RITQUIZ. All rights reserved.</p>
                         </div>
                     </div>
                 </footer>
