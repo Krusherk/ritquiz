@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuiz } from '../../contexts/QuizContext';
@@ -19,6 +19,8 @@ export function QuizPlay() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showFeedback, setShowFeedback] = useState(false);
+    const [isLocked, setIsLocked] = useState(false);
 
     useEffect(() => {
         if (id) {
@@ -26,20 +28,36 @@ export function QuizPlay() {
         }
     }, [id]);
 
-    const handleTimeUp = () => {
+    // Reset feedback when question changes
+    useEffect(() => {
+        setShowFeedback(false);
+        setIsLocked(false);
+    }, [state.currentQuestionIndex]);
+
+    const handleTimeUp = useCallback(() => {
+        if (isSubmitting || isLocked) return;
+
         if (state.currentQuestionIndex < state.questions.length - 1) {
             nextQuestion();
         } else {
             handleSubmit();
         }
-    };
+    }, [state.currentQuestionIndex, state.questions.length, isSubmitting, isLocked]);
 
     const handleAnswerSelect = (optionIndex: number) => {
+        if (isLocked || isSubmitting) return;
+
         const currentQuestion = state.questions[state.currentQuestionIndex];
         selectAnswer(currentQuestion.id, optionIndex);
+
+        // Show feedback (correct answer) after selection
+        setShowFeedback(true);
+        setIsLocked(true);
     };
 
     const handleNext = () => {
+        if (isSubmitting) return;
+
         if (state.currentQuestionIndex < state.questions.length - 1) {
             nextQuestion();
         } else {
@@ -48,13 +66,14 @@ export function QuizPlay() {
     };
 
     const handleSubmit = async () => {
+        if (isSubmitting) return;
+
         setIsSubmitting(true);
         try {
             await submitQuiz();
             navigate(`/quiz/${id}/results`);
         } catch (error) {
             console.error('Error submitting quiz:', error);
-        } finally {
             setIsSubmitting(false);
         }
     };
@@ -131,6 +150,29 @@ export function QuizPlay() {
     const currentQuestion = state.questions[state.currentQuestionIndex];
     const selectedAnswer = state.answers[currentQuestion.id];
     const isLastQuestion = state.currentQuestionIndex === state.questions.length - 1;
+    const correctAnswer = currentQuestion.correctAnswer;
+
+    const getOptionClassName = (index: number) => {
+        const classes = [styles.optionButton];
+
+        if (selectedAnswer === index) {
+            classes.push(styles.selected);
+        }
+
+        if (showFeedback) {
+            if (index === correctAnswer) {
+                classes.push(styles.correct);
+            } else if (selectedAnswer === index && index !== correctAnswer) {
+                classes.push(styles.incorrect);
+            }
+        }
+
+        if (isLocked) {
+            classes.push(styles.locked);
+        }
+
+        return classes.join(' ');
+    };
 
     return (
         <div className={styles.quizPage}>
@@ -150,7 +192,7 @@ export function QuizPlay() {
                 <Timer
                     seconds={state.quiz.timerSeconds}
                     onComplete={handleTimeUp}
-                    isActive={state.isStarted}
+                    isActive={state.isStarted && !isLocked}
                     size="md"
                 />
             </div>
@@ -171,15 +213,22 @@ export function QuizPlay() {
                         {currentQuestion.options.map((option, index) => (
                             <motion.button
                                 key={index}
-                                className={`${styles.optionButton} ${selectedAnswer === index ? styles.selected : ''}`}
+                                className={getOptionClassName(index)}
                                 onClick={() => handleAnswerSelect(index)}
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
+                                whileHover={!isLocked ? { scale: 1.02 } : {}}
+                                whileTap={!isLocked ? { scale: 0.98 } : {}}
+                                disabled={isLocked}
                             >
                                 <span className={styles.optionLetter}>
                                     {String.fromCharCode(65 + index)}
                                 </span>
                                 <span className={styles.optionText}>{option}</span>
+                                {showFeedback && index === correctAnswer && (
+                                    <span className={styles.correctIcon}>✓</span>
+                                )}
+                                {showFeedback && selectedAnswer === index && index !== correctAnswer && (
+                                    <span className={styles.incorrectIcon}>✗</span>
+                                )}
                             </motion.button>
                         ))}
                     </div>
@@ -190,7 +239,7 @@ export function QuizPlay() {
             <div className={styles.footer}>
                 <Button
                     onClick={handleNext}
-                    disabled={selectedAnswer === undefined}
+                    disabled={selectedAnswer === undefined || isSubmitting}
                     isLoading={isSubmitting}
                     size="lg"
                 >
