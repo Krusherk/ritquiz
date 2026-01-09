@@ -32,9 +32,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             (account) => account.type === 'discord_oauth'
         ) as any;
 
-        if (discordAccount?.username && discordAccount?.subject) {
-            // Discord CDN avatar URL
-            return `https://cdn.discordapp.com/avatars/${discordAccount.subject}/${discordAccount.subject}.png`;
+        // Privy provides the avatar URL or we can construct it from subject (Discord user ID)
+        if (discordAccount) {
+            // If Privy provides the avatar URL directly
+            if (discordAccount.avatarUrl) {
+                return discordAccount.avatarUrl;
+            }
+            // If Privy provides profile picture URL
+            if (discordAccount.profile_picture_url) {
+                return discordAccount.profile_picture_url;
+            }
+            // Fallback: construct from Discord CDN (subject is the Discord user ID)
+            if (discordAccount.subject) {
+                // Default Discord avatar based on discriminator
+                return `https://cdn.discordapp.com/embed/avatars/${parseInt(discordAccount.subject) % 5}.png`;
+            }
         }
 
         return null;
