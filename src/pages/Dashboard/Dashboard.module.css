@@ -208,17 +208,66 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+    .page {
+        padding: var(--spacing-4) 0;
+    }
+
     .welcomeBanner {
         flex-direction: column-reverse;
         text-align: center;
         gap: var(--spacing-4);
+        padding: var(--spacing-6);
+    }
+
+    .welcomeTitle {
+        font-size: var(--font-size-xl);
+    }
+
+    .welcomeSubtitle {
+        font-size: var(--font-size-base);
     }
 
     .quickStats {
         grid-template-columns: 1fr;
     }
 
+    .tabs {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .tab {
+        padding: var(--spacing-2) var(--spacing-4);
+        white-space: nowrap;
+    }
+
     .quizGrid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcomeBanner {
+        padding: var(--spacing-4);
+    }
+
+    .welcomeTitle {
+        font-size: var(--font-size-lg);
+    }
+
+    .statValue {
+        font-size: var(--font-size-xl);
+    }
+
+    .statLabel {
+        font-size: var(--font-size-xs);
+    }
+
+    .emptyState {
+        padding: var(--spacing-8);
+    }
+
+    .emptyIcon {
+        font-size: var(--font-size-4xl);
     }
 }
