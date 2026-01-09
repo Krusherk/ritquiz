@@ -13,7 +13,7 @@ export function PrivyWrapper({ children }: PrivyWrapperProps) {
                 appearance: {
                     theme: 'dark',
                     accentColor: '#FFFFFF',
-                    logo: '/logo.svg',
+                    logo: '/rit.svg',
                 },
                 loginMethods: ['email', 'google', 'discord'],
                 embeddedWallets: {
