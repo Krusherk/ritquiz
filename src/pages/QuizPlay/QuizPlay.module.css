@@ -227,6 +227,67 @@
     flex: 1;
 }
 
+/* Correct answer - Green */
+.optionButton.correct {
+    border-color: var(--color-success);
+    background: rgba(34, 197, 94, 0.15);
+}
+
+.optionButton.correct .optionLetter {
+    background: var(--color-success);
+    color: var(--color-white);
+}
+
+/* Incorrect answer - Red */
+.optionButton.incorrect {
+    border-color: var(--color-error);
+    background: rgba(239, 68, 68, 0.15);
+}
+
+.optionButton.incorrect .optionLetter {
+    background: var(--color-error);
+    color: var(--color-white);
+}
+
+/* Locked state */
+.optionButton.locked {
+    cursor: default;
+    pointer-events: none;
+}
+
+.optionButton.locked:hover {
+    transform: none;
+}
+
+/* Icons */
+.correctIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--color-success);
+    border-radius: var(--radius-full);
+    color: var(--color-white);
+    font-weight: bold;
+    font-size: var(--font-size-sm);
+    flex-shrink: 0;
+}
+
+.incorrectIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--color-error);
+    border-radius: var(--radius-full);
+    color: var(--color-white);
+    font-weight: bold;
+    font-size: var(--font-size-sm);
+    flex-shrink: 0;
+}
+
 .footer {
     display: flex;
     justify-content: center;
