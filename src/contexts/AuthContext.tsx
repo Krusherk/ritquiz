@@ -64,6 +64,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return '';
     };
 
+    // Check if user should be admin
+    const getDiscordUsername = (): string => {
+        if (!privyUser?.linkedAccounts) return '';
+        const discordAccount = privyUser.linkedAccounts.find(
+            (account) => account.type === 'discord_oauth'
+        ) as any;
+        return discordAccount?.username || '';
+    };
+
+    const isAdminUser = (): boolean => {
+        const email = getEmail();
+        const discordUsername = getDiscordUsername();
+
+        // Admin email or Discord username
+        if (email === 'kqowiy25@gmail.com') return true;
+        if (discordUsername === 'qawiyy.0x') return true;
+
+        return false;
+    };
+
     const refreshUser = async () => {
         if (!privyUser?.id) {
             setUser(null);
@@ -76,14 +96,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const existingUser = await getUserByPrivyId(privyUser.id);
 
             if (existingUser) {
-                setUser(existingUser);
+                // Check if admin status needs to be updated
+                if (isAdminUser() && existingUser.role !== 'admin') {
+                    await updateUser(privyUser.id, { role: 'admin' });
+                    setUser({ ...existingUser, role: 'admin' });
+                } else {
+                    setUser(existingUser);
+                }
                 setNeedsUsername(false);
 
                 // Update avatar if they logged in with Discord and avatar changed
                 const discordAvatar = getDiscordAvatar();
                 if (discordAvatar && discordAvatar !== existingUser.avatarUrl) {
                     await updateUser(privyUser.id, { avatarUrl: discordAvatar });
-                    setUser({ ...existingUser, avatarUrl: discordAvatar });
+                    setUser(prev => prev ? { ...prev, avatarUrl: discordAvatar } : null);
                 }
             } else {
                 // New user - needs to set username
@@ -112,13 +138,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const setUsername = async (username: string) => {
         if (!privyUser?.id) throw new Error('Not authenticated');
 
+        // Determine role based on email/discord username
+        const role = isAdminUser() ? 'admin' : 'player';
+
         const newUser = await createUser({
             privyId: privyUser.id,
             username,
             displayName: getDisplayName() || username,
             email: getEmail(),
             avatarUrl: getDiscordAvatar(),
-            role: 'player',
+            role,
             createdAt: Date.now(),
             updatedAt: Date.now()
         });
