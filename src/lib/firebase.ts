@@ -3,14 +3,14 @@ import { getDatabase, ref, set, get, update, remove, push, onValue, query, order
 import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL
+    apiKey: "AIzaSyB6LmoUIf4FZEMrgNfeYugO1EQb1sJij30",
+    authDomain: "quiz-73945.firebaseapp.com",
+    projectId: "quiz-73945",
+    storageBucket: "quiz-73945.firebasestorage.app",
+    messagingSenderId: "108598824396",
+    appId: "1:108598824396:web:9c45d2c8d989783ccc6169",
+    measurementId: "G-N5RDDF1D07",
+    databaseURL: "https://quiz-73945-default-rtdb.firebaseio.com"
 };
 
 // Initialize Firebase
@@ -18,17 +18,17 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
 
-export { 
-  db, 
-  analytics, 
-  ref, 
-  set, 
-  get, 
-  update, 
-  remove, 
-  push, 
-  onValue,
-  query,
-  orderByChild,
-  limitToLast
+export {
+    db,
+    analytics,
+    ref,
+    set,
+    get,
+    update,
+    remove,
+    push,
+    onValue,
+    query,
+    orderByChild,
+    limitToLast
 };

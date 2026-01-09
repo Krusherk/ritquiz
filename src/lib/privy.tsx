@@ -8,7 +8,7 @@ interface PrivyWrapperProps {
 export function PrivyWrapper({ children }: PrivyWrapperProps) {
     return (
         <PrivyProvider
-            appId={import.meta.env.VITE_PRIVY_APP_ID}
+            appId="cmk5f3fiu00dwla0c4ctirfwn"
             config={{
                 appearance: {
                     theme: 'dark',
