@@ -150,7 +150,7 @@ export function QuizPlay() {
     const currentQuestion = state.questions[state.currentQuestionIndex];
     const selectedAnswer = state.answers[currentQuestion.id];
     const isLastQuestion = state.currentQuestionIndex === state.questions.length - 1;
-    const correctAnswer = currentQuestion.correctAnswer;
+    const correctAnswer = currentQuestion.correctIndex;
 
     const getOptionClassName = (index: number) => {
         const classes = [styles.optionButton];
