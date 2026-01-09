@@ -17,12 +17,8 @@ export function Header() {
         >
             <div className={`container ${styles.container}`}>
                 <Link to="/" className={styles.logo}>
-                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                        <rect width="32" height="32" rx="8" fill="white" />
-                        <path d="M9 11L16 7L23 11V21L16 25L9 21V11Z" stroke="black" strokeWidth="2" />
-                        <circle cx="16" cy="16" r="4" fill="black" />
-                    </svg>
-                    <span className={styles.logoText}>Quizzy</span>
+                    <img src="/rit.svg" alt="RITQUIZ" width="32" height="32" />
+                    <span className={styles.logoText}>RITQUIZ</span>
                 </Link>
 
                 <nav className={styles.nav}>
